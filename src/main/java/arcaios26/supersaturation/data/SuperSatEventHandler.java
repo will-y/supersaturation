@@ -93,9 +93,9 @@ public class SuperSatEventHandler {
                         if (saturationLevel == null) {
                             try {
                                 saturationLevel = ObfuscationReflectionHelper.findField(FoodStats.class, "field_75125_b");
-                            } catch(java.lang.NoSuchMethodError e) { // Potential fix for applecore, it deobfs the field name?
+                            } catch(java.lang.NoSuchMethodError e) {
                                 saturationLevel = ObfuscationReflectionHelper.findField(FoodStats.class, "foodSaturationLevel");
-                            } catch (java.lang.NoSuchFieldError e) { // Potential fix for applecore, it deobfs the field name?
+                            } catch (java.lang.NoSuchFieldError e) { 
                                 saturationLevel = ObfuscationReflectionHelper.findField(FoodStats.class, "foodSaturationLevel");
                             }
                         }
