@@ -1,11 +1,15 @@
 modLoader="javafml" #mandatory
 loaderVersion="[35,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
+issueTrackerURL="https://github.com/ArcAios26/supersaturation/issues"
 license="MIT"
+
 [[mods]] #mandatory
 modId="supersaturation" #mandatory
 version="${file.jarVersion}" #mandatory
 displayName="Super Saturation" #mandatory
 authors="ArcAios26" #optional
+updateJSONURL="https://raw.githubusercontent.com/ArcAios26/supersaturation/master/update.json"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/super-saturation"
 description='''
 Provides for saturation above the hard cap of 20.
 Perfect for all those times you waste saturation when eating, especially when using food mods like Harvestcraft.

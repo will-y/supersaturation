@@ -24,13 +24,16 @@ public class CapabilitySuperSat {
         public INBT writeNBT(Capability<ISuperSat> capability, ISuperSat instance, Direction side) {
             CompoundNBT tag = new CompoundNBT();
             tag.putFloat("saturation", instance.getSat());
+            tag.putInt("hunger", instance.getHunger());
             return tag;
         }
 
         @Override
         public void readNBT(Capability<ISuperSat> capability, ISuperSat instance, Direction side, INBT nbt) {
             float sat = ((CompoundNBT) nbt).getFloat("saturation");
+            int hunger = ((CompoundNBT) nbt).getInt("hunger");
             instance.setSat(sat);
+            instance.setHunger(hunger);
         }
     }
 }
