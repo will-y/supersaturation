@@ -2,14 +2,18 @@ package arcaios26.supersaturation.data;
 
 import arcaios26.supersaturation.SuperSaturation;
 import arcaios26.supersaturation.setup.Config;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Food;
 import net.minecraft.util.FoodStats;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 import java.lang.reflect.Field;
@@ -181,6 +185,8 @@ public class SuperSatEventHandler {
                         sat.setHunger(sat.getHunger() - toAdd);
                     }
                 });
+            player.getCapability(CapabilitySuperSat.SUPER_SAT, null).ifPresent(cap -> cap.sync((ServerPlayerEntity) player));
         }
     }
+
 }
