@@ -9,6 +9,7 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 
 import javax.annotation.Nullable;
 
+
 public class CapabilitySuperSat {
     @CapabilityInject(ISuperSat.class)
     public static Capability<ISuperSat> SUPER_SAT = null;

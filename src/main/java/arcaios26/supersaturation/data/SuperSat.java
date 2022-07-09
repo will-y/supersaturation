@@ -32,7 +32,7 @@ public class SuperSat implements ISuperSat {
     @Override
     public void sync(ServerPlayerEntity player) {
 
-        if (!player.world.isRemote()) {
+        if (!player.level.isClientSide()) {
             player.getCapability(CapabilitySuperSat.SUPER_SAT, null).ifPresent(cap -> {
                 CompoundNBT nbt = (CompoundNBT) CapabilitySuperSat.SUPER_SAT.writeNBT(cap, null);
                 SuperSatNetwork.sendToClient(new SuperSatSyncPkt(nbt), player);

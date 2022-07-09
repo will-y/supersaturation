@@ -17,7 +17,7 @@ public class SuperSatSyncPkt {
     private final CompoundNBT nbt;
 
     public SuperSatSyncPkt(PacketBuffer buf) {
-        nbt = buf.readCompoundTag();
+        nbt = buf.readNbt();
     }
 
     public SuperSatSyncPkt(CompoundNBT nbt) {
@@ -25,7 +25,7 @@ public class SuperSatSyncPkt {
     }
 
     public void toBytes(PacketBuffer buf) {
-        buf.writeCompoundTag(nbt);
+        buf.writeNbt(nbt);
     }
 
     public boolean handle(Supplier<NetworkEvent.Context> ctx) {
@@ -45,7 +45,7 @@ public class SuperSatSyncPkt {
     public void handleClient(Supplier<NetworkEvent.Context> ctx) {
         PlayerEntity player = Minecraft.getInstance().player;
 
-        if (player.world.isRemote) {
+        if (player.level.isClientSide) {
             ctx.get().enqueueWork(() -> {
                 player.getCapability(CapabilitySuperSat.SUPER_SAT).ifPresent(cap -> CapabilitySuperSat.SUPER_SAT.readNBT(cap, null, nbt));
             });
