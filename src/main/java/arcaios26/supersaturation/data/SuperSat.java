@@ -2,8 +2,8 @@ package arcaios26.supersaturation.data;
 
 import arcaios26.supersaturation.network.SuperSatNetwork;
 import arcaios26.supersaturation.network.packets.SuperSatSyncPkt;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.nbt.CompoundTag;
 
 public class SuperSat implements ISuperSat {
     private float saturation = 0.0f;
@@ -30,11 +30,13 @@ public class SuperSat implements ISuperSat {
     }
 
     @Override
-    public void sync(ServerPlayerEntity player) {
+    public void sync(ServerPlayer player) {
 
         if (!player.level.isClientSide()) {
             player.getCapability(CapabilitySuperSat.SUPER_SAT, null).ifPresent(cap -> {
-                CompoundNBT nbt = (CompoundNBT) CapabilitySuperSat.SUPER_SAT.writeNBT(cap, null);
+                CompoundTag nbt = new CompoundTag();
+                nbt.putFloat("saturation", cap.getSat());
+                nbt.putInt("hunger", cap.getHunger());
                 SuperSatNetwork.sendToClient(new SuperSatSyncPkt(nbt), player);
             });
         }

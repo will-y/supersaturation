@@ -2,29 +2,28 @@ package arcaios26.supersaturation.network.packets;
 
 import arcaios26.supersaturation.data.CapabilitySuperSat;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.PlayerEntity;
-
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
 public class SuperSatSyncPkt {
 
-    private final CompoundNBT nbt;
+    private final CompoundTag nbt;
 
-    public SuperSatSyncPkt(PacketBuffer buf) {
+    public SuperSatSyncPkt(FriendlyByteBuf buf) {
         nbt = buf.readNbt();
     }
 
-    public SuperSatSyncPkt(CompoundNBT nbt) {
+    public SuperSatSyncPkt(CompoundTag nbt) {
         this.nbt = nbt;
     }
 
-    public void toBytes(PacketBuffer buf) {
+    public void toBytes(FriendlyByteBuf buf) {
         buf.writeNbt(nbt);
     }
 
@@ -43,11 +42,16 @@ public class SuperSatSyncPkt {
 
     @OnlyIn(Dist.CLIENT)
     public void handleClient(Supplier<NetworkEvent.Context> ctx) {
-        PlayerEntity player = Minecraft.getInstance().player;
+        Player player = Minecraft.getInstance().player;
 
         if (player.level.isClientSide) {
             ctx.get().enqueueWork(() -> {
-                player.getCapability(CapabilitySuperSat.SUPER_SAT).ifPresent(cap -> CapabilitySuperSat.SUPER_SAT.readNBT(cap, null, nbt));
+                player.getCapability(CapabilitySuperSat.SUPER_SAT).ifPresent(cap -> {
+                    float saturation = (nbt).getFloat("saturation");
+                    int hunger = (nbt).getInt("hunger");
+                    cap.setSat(saturation);
+                    cap.setHunger(hunger);
+                });
             });
         }
     }

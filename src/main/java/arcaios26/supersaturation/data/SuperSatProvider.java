@@ -1,7 +1,7 @@
 package arcaios26.supersaturation.data;
 
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
@@ -9,7 +9,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class SuperSatProvider implements ICapabilitySerializable<CompoundNBT> {
+public class SuperSatProvider implements ICapabilitySerializable<CompoundTag> {
     private final SuperSat sat = new SuperSat();
     private final LazyOptional<ISuperSat> satOptional = LazyOptional.of(() -> sat);
 
@@ -25,18 +25,24 @@ public class SuperSatProvider implements ICapabilitySerializable<CompoundNBT> {
 
 
     @Override
-    public CompoundNBT serializeNBT() {
+    public CompoundTag serializeNBT() {
         if (CapabilitySuperSat.SUPER_SAT == null) {
-            return new CompoundNBT();
+            return new CompoundTag();
         } else {
-            return (CompoundNBT) CapabilitySuperSat.SUPER_SAT.writeNBT(sat, null);
+            CompoundTag tag = new CompoundTag();
+            tag.putFloat("saturation", sat.getSat());
+            tag.putInt("hunger", sat.getHunger());
+            return tag;
         }
     }
 
     @Override
-    public void deserializeNBT(CompoundNBT nbt) {
+    public void deserializeNBT(CompoundTag nbt) {
         if (CapabilitySuperSat.SUPER_SAT != null) {
-            CapabilitySuperSat.SUPER_SAT.readNBT(sat, null, nbt);
+            float saturation = (nbt).getFloat("saturation");
+            int hunger = (nbt).getInt("hunger");
+            sat.setSat(saturation);
+            sat.setHunger(hunger);
         }
     }
 }
