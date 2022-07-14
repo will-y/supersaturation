@@ -87,13 +87,7 @@ public class SuperSatEventHandler {
                                 float needed = 20 - (lastSaturationLevels.get(player.getUUID()) + addedSat);
                                 float toAdd = Math.min(needed, (food.getNutrition() - addedHunger));
                                 if (saturationLevel == null) {
-                                    try {
-                                        saturationLevel = ObfuscationReflectionHelper.findField(FoodData.class, "saturationLevel");
-                                    } catch(java.lang.NoSuchMethodError e) {
-                                        saturationLevel = ObfuscationReflectionHelper.findField(FoodData.class, "foodSaturationLevel");
-                                    } catch (java.lang.NoSuchFieldError e) {
-                                        saturationLevel = ObfuscationReflectionHelper.findField(FoodData.class, "foodSaturationLevel");
-                                    }
+                                    getSatField();
                                 }
                                 try {
                                     saturationLevel.set(player.getFoodData(), player.getFoodData().getSaturationLevel() + toAdd);
@@ -138,13 +132,7 @@ public class SuperSatEventHandler {
                     if (sat.getSat() > 0.0f) {
                         float toAdd = Math.min(needed, sat.getSat());
                         if (saturationLevel == null) {
-                            try {
-                                saturationLevel = ObfuscationReflectionHelper.findField(FoodData.class, "f_38697_");
-                            } catch(java.lang.NoSuchMethodError e) {
-                                saturationLevel = ObfuscationReflectionHelper.findField(FoodData.class, "saturationLevel");
-                            } catch (java.lang.NoSuchFieldError e) { 
-                                saturationLevel = ObfuscationReflectionHelper.findField(FoodData.class, "saturationLevel");
-                            }
+                           getSatField();
                         }
                         try {
                             saturationLevel.set(pf, curSat + toAdd);
@@ -164,26 +152,40 @@ public class SuperSatEventHandler {
                 player.getCapability(CapabilitySuperSat.SUPER_SAT, null).ifPresent(sat -> {
                     int toAdd = Math.min(neededHunger, sat.getHunger());
                     if (hungerLevel == null) {
-                        try {
-                            hungerLevel = ObfuscationReflectionHelper.findField(FoodData.class, "f_38696_");
-                        } catch(java.lang.NoSuchMethodError e) {
-                            hungerLevel = ObfuscationReflectionHelper.findField(FoodData.class, "foodLevel");
-                        } catch(java.lang.NoSuchFieldError e) {
-                            hungerLevel = ObfuscationReflectionHelper.findField(FoodData.class, "foodLevel");
-                        }
-                        try {
-                            hungerLevel.set(pf, curHunger + toAdd);
-                        } catch (IllegalArgumentException e) {
-                            e.printStackTrace();
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
+                        getFoodField();
+                    }
+                    try {
+                        hungerLevel.set(pf, curHunger + toAdd);
+                    } catch (IllegalArgumentException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
 
                         sat.setHunger(sat.getHunger() - toAdd);
-                    }
+
                 });
             player.getCapability(CapabilitySuperSat.SUPER_SAT, null).ifPresent(cap -> cap.sync((ServerPlayer) player));
         }
     }
 
+    private static void getSatField() {
+        try {
+            saturationLevel = ObfuscationReflectionHelper.findField(FoodData.class, "f_38697_");
+        } catch(java.lang.NoSuchMethodError e) {
+            saturationLevel = ObfuscationReflectionHelper.findField(FoodData.class, "saturationLevel");
+        } catch (java.lang.NoSuchFieldError e) {
+            saturationLevel = ObfuscationReflectionHelper.findField(FoodData.class, "saturationLevel");
+        }
+    }
+
+    private static void getFoodField() {
+        try {
+            hungerLevel = ObfuscationReflectionHelper.findField(FoodData.class, "f_38696_");
+        } catch(java.lang.NoSuchMethodError e) {
+            hungerLevel = ObfuscationReflectionHelper.findField(FoodData.class, "foodLevel");
+        } catch(java.lang.NoSuchFieldError e) {
+            hungerLevel = ObfuscationReflectionHelper.findField(FoodData.class, "foodLevel");
+        }
+    }
 }
