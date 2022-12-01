@@ -1,7 +1,6 @@
 package arcaios26.supersaturation.setup;
 
 import arcaios26.supersaturation.SuperSaturation;
-import arcaios26.supersaturation.data.CapabilitySuperSat;
 import arcaios26.supersaturation.data.ISuperSat;
 import arcaios26.supersaturation.data.SuperSatEventHandler;
 import arcaios26.supersaturation.network.SuperSatNetwork;

@@ -56,5 +56,6 @@ public class SuperSatSyncPkt {
         }
     }
 
-    public void handleServer(Supplier<NetworkEvent.Context> ctx) {}
+    public void handleServer(Supplier<NetworkEvent.Context> ctx) {
+    }
 }

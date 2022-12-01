@@ -64,7 +64,8 @@ public class SuperSatEventHandler {
     }
 
     public static void onFinish(LivingEntityUseItemEvent.Finish event) {
-        if (event.isCanceled() || !event.getItem().getItem().isEdible() || !(event.getEntity() instanceof Player)) return;
+        if (event.isCanceled() || !event.getItem().getItem().isEdible() || !(event.getEntity() instanceof Player))
+            return;
 
         FoodProperties food = event.getItem().getItem().getFoodProperties();
         Player player = (Player) event.getEntity();
@@ -73,8 +74,8 @@ public class SuperSatEventHandler {
             player.getCapability(CapabilitySuperSat.SUPER_SAT, null).ifPresent(sat -> {
                 if ((sat.getSat() <= 0.0001 || Config.CANGAIN.get()) && lastSaturationLevels.containsKey(player.getUUID())) {
                     float foodSat = 2 * (food.getNutrition() * food.getSaturationModifier());
-                    float addedSat = Math.min(20-lastSaturationLevels.get(player.getUUID()), foodSat);
-                    int addedHunger = Math.min(20-lastHungerLevels.get(player.getUUID()), food.getNutrition());
+                    float addedSat = Math.min(20 - lastSaturationLevels.get(player.getUUID()), foodSat);
+                    int addedHunger = Math.min(20 - lastHungerLevels.get(player.getUUID()), food.getNutrition());
 
                     if (sat.getSat() < 0) sat.setSat(0);
                     if (sat.getHunger() < 0) sat.setHunger(0);
@@ -99,8 +100,7 @@ public class SuperSatEventHandler {
 
                                 foodSat = foodSat + (food.getNutrition() - addedHunger - toAdd);
                             }
-                        }
-                        else
+                        } else
                             sat.setHunger(food.getNutrition() - addedHunger);
                     }
 
@@ -132,7 +132,7 @@ public class SuperSatEventHandler {
                     if (sat.getSat() > 0.0f) {
                         float toAdd = Math.min(needed, sat.getSat());
                         if (saturationLevel == null) {
-                           getSatField();
+                            getSatField();
                         }
                         try {
                             saturationLevel.set(pf, curSat + toAdd);
@@ -162,7 +162,7 @@ public class SuperSatEventHandler {
                         e.printStackTrace();
                     }
 
-                        sat.setHunger(sat.getHunger() - toAdd);
+                    sat.setHunger(sat.getHunger() - toAdd);
 
                 });
             player.getCapability(CapabilitySuperSat.SUPER_SAT, null).ifPresent(cap -> cap.sync((ServerPlayer) player));
@@ -172,7 +172,7 @@ public class SuperSatEventHandler {
     private static void getSatField() {
         try {
             saturationLevel = ObfuscationReflectionHelper.findField(FoodData.class, "f_38697_");
-        } catch(java.lang.NoSuchMethodError e) {
+        } catch (java.lang.NoSuchMethodError e) {
             saturationLevel = ObfuscationReflectionHelper.findField(FoodData.class, "saturationLevel");
         } catch (java.lang.NoSuchFieldError e) {
             saturationLevel = ObfuscationReflectionHelper.findField(FoodData.class, "saturationLevel");
@@ -182,9 +182,9 @@ public class SuperSatEventHandler {
     private static void getFoodField() {
         try {
             hungerLevel = ObfuscationReflectionHelper.findField(FoodData.class, "f_38696_");
-        } catch(java.lang.NoSuchMethodError e) {
+        } catch (java.lang.NoSuchMethodError e) {
             hungerLevel = ObfuscationReflectionHelper.findField(FoodData.class, "foodLevel");
-        } catch(java.lang.NoSuchFieldError e) {
+        } catch (java.lang.NoSuchFieldError e) {
             hungerLevel = ObfuscationReflectionHelper.findField(FoodData.class, "foodLevel");
         }
     }
