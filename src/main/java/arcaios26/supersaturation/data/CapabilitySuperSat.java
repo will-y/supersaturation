@@ -7,6 +7,7 @@ import net.minecraftforge.common.capabilities.CapabilityToken;
 
 public class CapabilitySuperSat {
 
-    public static Capability<ISuperSat> SUPER_SAT = CapabilityManager.get(new CapabilityToken<>() {});
+    public static Capability<ISuperSat> SUPER_SAT = CapabilityManager.get(new CapabilityToken<>() {
+    });
 
 }

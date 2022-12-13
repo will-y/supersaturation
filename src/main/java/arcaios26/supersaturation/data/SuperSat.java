@@ -2,8 +2,8 @@ package arcaios26.supersaturation.data;
 
 import arcaios26.supersaturation.network.SuperSatNetwork;
 import arcaios26.supersaturation.network.packets.SuperSatSyncPkt;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerPlayer;
 
 public class SuperSat implements ISuperSat {
     private float saturation = 0.0f;

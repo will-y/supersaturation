@@ -2,7 +2,6 @@ package arcaios26.supersaturation.setup;
 
 import arcaios26.supersaturation.SuperSaturation;
 import arcaios26.supersaturation.data.ClientEventHandler;
-import arcaios26.supersaturation.network.SuperSatNetwork;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
