@@ -26,7 +26,7 @@ public class SuperSatNetwork {
         INSTANCE.messageBuilder(SuperSatSyncPkt.class, nextID())
                 .encoder(SuperSatSyncPkt::toBytes)
                 .decoder(SuperSatSyncPkt::new)
-                .consumer(SuperSatSyncPkt::handle)
+                .consumerMainThread(SuperSatSyncPkt::handle)
                 .add();
     }
 

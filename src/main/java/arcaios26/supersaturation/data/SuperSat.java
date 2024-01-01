@@ -32,7 +32,7 @@ public class SuperSat implements ISuperSat {
     @Override
     public void sync(ServerPlayer player) {
 
-        if (!player.level.isClientSide()) {
+        if (!player.level().isClientSide()) {
             player.getCapability(CapabilitySuperSat.SUPER_SAT, null).ifPresent(cap -> {
                 CompoundTag nbt = new CompoundTag();
                 nbt.putFloat("saturation", cap.getSat());

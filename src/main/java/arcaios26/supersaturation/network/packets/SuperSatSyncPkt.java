@@ -44,7 +44,7 @@ public class SuperSatSyncPkt {
     public void handleClient(Supplier<NetworkEvent.Context> ctx) {
         Player player = Minecraft.getInstance().player;
 
-        if (player.level.isClientSide) {
+        if (player.level().isClientSide) {
             ctx.get().enqueueWork(() -> {
                 player.getCapability(CapabilitySuperSat.SUPER_SAT).ifPresent(cap -> {
                     float saturation = (nbt).getFloat("saturation");

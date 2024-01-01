@@ -37,7 +37,7 @@ public class SuperSatEventHandler {
         if (event.isCanceled() || !(event.getEntity() instanceof Player)) return;
 
         Player player = (Player) event.getEntity();
-        if (!player.level.isClientSide) {
+        if (!player.level().isClientSide) {
             if (lastSaturationLevels.containsKey(player.getUUID()))
                 lastSaturationLevels.replace(player.getUUID(), player.getFoodData().getSaturationLevel());
             else
@@ -54,7 +54,7 @@ public class SuperSatEventHandler {
         if (event.isCanceled() || !(event.getEntity() instanceof Player)) return;
 
         Player player = (Player) event.getEntity();
-        if (!player.level.isClientSide) {
+        if (!player.level().isClientSide) {
             if (lastSaturationLevels.containsKey(player.getUUID()))
                 lastSaturationLevels.remove(player.getUUID());
 
@@ -69,7 +69,7 @@ public class SuperSatEventHandler {
 
         FoodProperties food = event.getItem().getItem().getFoodProperties();
         Player player = (Player) event.getEntity();
-        if (!player.level.isClientSide) {
+        if (!player.level().isClientSide) {
 
             player.getCapability(CapabilitySuperSat.SUPER_SAT, null).ifPresent(sat -> {
                 if ((sat.getSat() <= 0.0001 || Config.CANGAIN.get()) && lastSaturationLevels.containsKey(player.getUUID())) {
@@ -123,7 +123,7 @@ public class SuperSatEventHandler {
         if (event.isCanceled()) return;
 
         Player player = event.player;
-        if (!player.level.isClientSide) {
+        if (!player.level().isClientSide) {
             FoodData pf = player.getFoodData();
             float curSat = pf.getSaturationLevel();
             float needed = 20.0f - curSat;
