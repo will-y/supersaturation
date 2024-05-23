@@ -8,6 +8,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
@@ -64,12 +65,11 @@ public class SuperSatEventHandler {
     }
 
     public static void onFinish(LivingEntityUseItemEvent.Finish event) {
-        if (event.isCanceled() || !event.getItem().getItem().isEdible() || !(event.getEntity() instanceof Player))
+        if (event.isCanceled() || !event.getItem().getItem().isEdible() || !(event.getEntity() instanceof Player player))
             return;
 
-        FoodProperties food = event.getItem().getItem().getFoodProperties();
-        Player player = (Player) event.getEntity();
-        if (!player.level().isClientSide) {
+        FoodProperties food = event.getItem().getFoodProperties(player);
+        if (!player.level().isClientSide && food != null) {
 
             player.getCapability(CapabilitySuperSat.SUPER_SAT, null).ifPresent(sat -> {
                 if ((sat.getSat() <= 0.0001 || Config.CANGAIN.get()) && lastSaturationLevels.containsKey(player.getUUID())) {
